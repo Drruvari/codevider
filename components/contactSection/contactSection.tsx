@@ -2,14 +2,14 @@ import { Footer } from "@/components/contactSection/footer";
 import Magentic from "@/components/ui/magentic";
 import { links } from "@/data/data";
 import { useAppSelector } from "@/hooks/reduxHooks";
+import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { Bulge } from "../bulge";
 import { Header } from "../header";
-import dynamic from "next/dynamic";
 
 const BgImagesContainer = dynamic(
-  () => import("@/components/contactSection/bgImagesContainer"),
-  { ssr: false }
+    () => import("@/components/contactSection/bgImagesContainer"),
+    { ssr: false }
 );
 
 export function ContactSection({ }) {
@@ -17,7 +17,7 @@ export function ContactSection({ }) {
     const bgImagesSharedRef = useRef<gsap.core.Tween | null>(null);
 
     return (
-        <section className="section section__5 third darkGradient ">
+        <section className="section section__5 third lightGradient">
             <Bulge type="Light" />
             <Header color="Light"></Header>
 

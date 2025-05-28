@@ -37,7 +37,7 @@ export function Footer({ className }: { className?: string }) {
     return (
         <footer
             className={cn(
-                "footer__links absolute flex  w-full flex-wrap gap-0  px-paddingX mix-blend-difference md:gap-12",
+                "footer__links absolute flex w-full flex-wrap gap-0 px-paddingX mix-blend-difference md:gap-12",
                 className,
             )}
         >
@@ -58,9 +58,8 @@ export function Footer({ className }: { className?: string }) {
                 isMagnetic={true}
                 links={[
                     { href: links.email, text: "Email" },
-                    { href: links.twitter, text: "Twitter" },
-                    { href: links.telegram, text: "Telegram" },
-                    { href: links.github, text: "Github" },
+                    { href: links.instagram, text: "Instagram" },
+                    { href: links.linkedin, text: "LinkedIn" },
                 ]}
             />
         </footer>
