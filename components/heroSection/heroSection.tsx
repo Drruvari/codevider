@@ -6,6 +6,7 @@ import { useRef } from "react";
 
 export function HeroSection({ }) {
     const sectionRef = useRef(null);
+
     return (
         <section
             ref={sectionRef}

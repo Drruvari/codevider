@@ -50,7 +50,7 @@ export default function RootLayout({
                 <GoogleAnalytics />
             </head>
 
-            <body className={helvetica.className}>
+            <body className={satoshi.className}>
                 <StoreProvider>{children}</StoreProvider>
             </body>
             <Script src="https://cdn.jsdelivr.net/gh/vipulkumar-dev/gsap@2024/ScrambleTextPlugin.min.js" />

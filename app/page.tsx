@@ -10,7 +10,6 @@ export default function HomePage({ }) {
     return (
         <>
             <Cursor />
-            {/* <Intro /> */}
             <HeaderNavigation />
             <FullpageProvider>
                 <Main />
