@@ -7,6 +7,9 @@ import { useEffect, useRef } from "react";
 import { Footer } from "./contactSection/footer";
 import { Header } from "./header";
 import Magentic from "./ui/magentic";
+
+gsap.registerPlugin(CustomEase);
+
 export function HeaderNavigation() {
     const { isMenuOpen, color } = useAppSelector((state) => state.menuReducer);
     const possibleTailwindClasses = [

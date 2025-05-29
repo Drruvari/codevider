@@ -1,16 +1,17 @@
 "use client";
 
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { setActiveSlide } from "@/redux/states/fullpageSlice";
+import { splineSceneVisibility } from "@/redux/states/splineSlice";
 import ReactFullpage from "@fullpage/react-fullpage";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import React, { useEffect, useRef } from "react";
-
-import { useAppDispatch } from "@/hooks/reduxHooks";
-import { setActiveSlide } from "@/redux/states/fullpageSlice";
-import { splineSceneVisibility } from "@/redux/states/splineSlice";
 import SplitType from "split-type";
 // import Lottie from "lottie-web";
 // import fullpage from "@fullpage/react-fullpage";
+
+gsap.registerPlugin(CustomEase);
 
 const opts = {
     autoScrolling: true,

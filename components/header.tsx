@@ -58,7 +58,7 @@ export function Header({ color, className, mode = "hamburger" }: HeaderProps) {
                         strength={50}
                         className={`nav__item text-xl font-bold text-color${color} before:bg-color${color}`}
                         onMouseEnter={() => {
-                            console.log("hello");
+                            // console.log("hello");
                             logoAnimationTl.current?.play();
                         }}
                         onMouseLeave={() => {

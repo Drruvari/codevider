@@ -1,13 +1,13 @@
 import GoogleAnalytics from "@/app/GoogleAnalytics";
+import StoreProvider from "@/redux/storeProvider";
+import { gsap } from "gsap";
+import { CustomEase } from "gsap/CustomEase";
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
-
-import StoreProvider from "@/redux/storeProvider";
-import { gsap } from "gsap";
-import { CustomEase } from "gsap/CustomEase";
 import "./globals.css";
+
 gsap.registerPlugin(CustomEase);
 
 const dM_Sans = DM_Sans({ subsets: ["latin-ext"] });

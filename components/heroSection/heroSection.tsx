@@ -14,7 +14,7 @@ export function HeroSection({ }) {
             <Bulge type="Light" />
             <Header color="Light" />
             <HeroWrapper />
-            <ImageSequence sectionRef={sectionRef} />
+            <ImageSequence />
         </section>
     );
 }
