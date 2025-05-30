@@ -17,7 +17,7 @@ export function ContactSection({ }) {
     const bgImagesSharedRef = useRef<gsap.core.Tween | null>(null);
 
     return (
-        <section className="section section__5 third darkGradient">
+        <section className="section section__5 fourth darkGradient">
             <Bulge type="Light" />
             <Header color="Light"></Header>
 

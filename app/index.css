@@ -280,10 +280,10 @@ textPath {
 .section__1 .left:before {
     display: block;
     content: "";
-    background-image: url(/svg/topology2.svg);
+    background-image: url(/svg/arrow3.svg);
     background-size: cover;
-    height: 2em;
-    width: 2em;
+    height: 1em;
+    width: 1em;
     position: absolute;
     transform: translate(0px, -2em);
 }

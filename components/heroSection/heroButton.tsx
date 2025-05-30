@@ -34,11 +34,11 @@ export function HeroButton({ }) {
             href="/contact"
             scrambleParams={[
                 {
-                    text: "Check out",
+                    text: "Don't Hessitate",
                     chars: "-x",
                 },
                 {
-                    text: "Latest Work",
+                    text: "Contact Us",
                     chars: "-x",
                 },
             ]}
