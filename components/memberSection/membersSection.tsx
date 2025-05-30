@@ -1,107 +1,156 @@
 "use client";
 
-import al from "@/public/img/members/al.jpg";
-import ed from "@/public/img/members/ed.jpg";
-import ez from "@/public/img/members/ez.jpg";
-import pt from "@/public/img/members/pt.jpg";
-import { useRef, useState } from "react";
-import { Bulge } from "../bulge";
-import { Header } from "../header";
-import MembersList from "./membersList";
-import PreviewModal from "./previewModal";
+import { Bulge } from "@/components/bulge";
+import { Header } from "@/components/header";
+import { gsap } from "gsap";
+import SplitText from "gsap/SplitText";
+import { useEffect } from "react";
 
-const teamMembers = [
-    {
-        name: "Pasho Toska",
-        role: "Managing Partner",
-        year: "Joined 2019",
-        experience: "15+ years",
-        preview: pt,
-        color: "#5DEA7C",
-    },
-    {
-        name: "Ervin Ziko",
-        role: "Finance Manager",
-        year: "Joined 2020",
-        experience: "10+ years",
-        preview: ez,
-        color: "#E3E3E3",
-    },
-    {
-        name: "Erion Domi",
-        role: "Multinational Manager",
-        year: "Joined 2021",
-        experience: "12+ years",
-        preview: ed,
-        color: "#F2F2F2",
-    },
-    {
-        name: "Altin Luli",
-        role: "Outsourcing Manager",
-        year: "Joined 2022",
-        experience: "8+ years",
-        preview: al,
-        color: "#121212",
-    },
-];
+import "./styles.css";
+gsap.registerPlugin(SplitText);
 
-const MembersSection = () => {
-    const [activePreview, setActivePreview] = useState<number>(0);
-    const [modalActive, setModalActive] = useState<boolean>(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+export default function MembersSection() {
+    useEffect(() => {
+        const profileImagesContainer = document.querySelector(".members-profile-images");
+        const profileImages = document.querySelectorAll<HTMLImageElement>(
+            ".members-profile-images .members-memberImg"
+        );
+        const nameElements = document.querySelectorAll<HTMLElement>(
+            ".members-profile-names .members-name"
+        );
+        const nameHeadings = document.querySelectorAll<HTMLHeadingElement>(
+            ".members-profile-names .members-name h1"
+        );
 
-    const handleEnter = () => {
-        setModalActive(true);
-    };
+        // Split each heading into chars
+        nameHeadings.forEach((heading) => {
+            const split = new SplitText(heading, { type: "chars" });
+            split.chars.forEach((char) => char.classList.add("letter"));
+        });
 
-    const handleLeave = () => {
-        setModalActive(false);
-    };
+        const defaultLetters = nameElements[0].querySelectorAll<HTMLElement>(".letter");
+        gsap.set(defaultLetters, { y: "100%" });
+
+        // Hover animations only for desktop
+        if (window.innerWidth >= 900) {
+            profileImages.forEach((img, idx) => {
+                const container = img.parentElement!;
+                const correspondingName = nameElements[idx + 1]; // skip default
+                const letters = correspondingName.querySelectorAll<HTMLElement>(".letter");
+
+                img.addEventListener("mouseenter", () => {
+                    gsap.to(container, {
+                        width: 140,
+                        height: 140,
+                        duration: 0.5,
+                        ease: "power4.out",
+                    });
+                    gsap.to(letters, {
+                        y: "-100%",
+                        duration: 0.75,
+                        stagger: { each: 0.025, from: "center" },
+                    });
+                });
+
+                img.addEventListener("mouseleave", () => {
+                    gsap.to(container, {
+                        width: 70,
+                        height: 70,
+                        duration: 0.5,
+                        ease: "power4.out",
+                    });
+                    gsap.to(letters, {
+                        y: "0%",
+                        ease: "power4.out",
+                        duration: 0.75,
+                        stagger: { each: 0.025, from: "center" },
+                    });
+                });
+            });
+
+            profileImagesContainer?.addEventListener("mouseenter", () => {
+                gsap.to(defaultLetters, {
+                    y: "0%",
+                    ease: "power4.out",
+                    duration: 0.75,
+                    stagger: { each: 0.025, from: "center" },
+                });
+            });
+
+            profileImagesContainer?.addEventListener("mouseleave", () => {
+                gsap.to(defaultLetters, {
+                    y: "100%",
+                    ease: "power4.out",
+                    duration: 0.75,
+                    stagger: { each: 0.025, from: "center" },
+                });
+            });
+        }
+
+        // Clean up listeners on unmount
+        return () => {
+            profileImages.forEach((img) => {
+                img.replaceWith(img.cloneNode(true));
+            });
+            profileImagesContainer?.replaceWith(
+                profileImagesContainer.cloneNode(true)
+            );
+        };
+    }, []);
 
     return (
-        <section
-            ref={containerRef}
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-            className="section section__3 darkGradient third text-colorLight"
-        >
+        <section className="members-section section section__3 third darkGradient text-colorLight">
             <Bulge type="Light" />
             <Header color="Light" />
-            <div className="relative flex justify-between items-center w-full h-[40px] px-mobile lg:px-desktop-h opacity-45 text-14-body">
-                <div className="basis-[50%] lg:basis-[20%] text-left">
-                    Full Name
-                </div>
 
-                <div className="basis-[50%] justify-between hidden lg:flex">
-                    Role
-                    Experience
+            <div className="members-profile-images">
+                <div className="members-img">
+                    <img
+                        className="members-memberImg"
+                        src="/img/members/pt.jpg"
+                        alt="Pasho Toska"
+                    />
                 </div>
-
-                <div className="basis-[50%] lg:basis-[20%] text-right">
-                    Joined
+                <div className="members-img">
+                    <img
+                        className="members-memberImg"
+                        src="/img/members/ez.jpg"
+                        alt="Ervin Ziko"
+                    />
+                </div>
+                <div className="members-img">
+                    <img
+                        className="members-memberImg"
+                        src="/img/members/al.jpg"
+                        alt="Altin Luli"
+                    />
+                </div>
+                <div className="members-img">
+                    <img
+                        className="members-memberImg"
+                        src="/img/members/ed.jpg"
+                        alt="Erion Domi"
+                    />
                 </div>
             </div>
 
-            <div>
-                {teamMembers.map(({ name, role, experience, year }, i) => (
-                    <MembersList
-                        key={i}
-                        name={name}
-                        role={role}
-                        experience={experience}
-                        year={year}
-                        handleMouseEnter={() => setActivePreview(i)}
-                    />
-                ))}
-
-                <PreviewModal
-                    members={teamMembers}
-                    activePreview={activePreview}
-                    modalActive={modalActive}
-                />
+            <div className="members-profile-names">
+                <div className="members-name default">
+                    <h1>The Squad</h1>
+                </div>
+                <div className="members-name">
+                    <h1>Pasho Toska</h1>
+                </div>
+                <div className="members-name">
+                    <h1>Ervin Ziko</h1>
+                </div>
+                <div className="members-name">
+                    <h1>Altin Luli</h1>
+                </div>
+                <div className="members-name">
+                    <h1>Erion Domi</h1>
+                </div>
             </div>
         </section>
     );
-};
-
-export default MembersSection;
+}

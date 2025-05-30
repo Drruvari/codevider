@@ -17,9 +17,9 @@ export function ContactSection({ }) {
     const bgImagesSharedRef = useRef<gsap.core.Tween | null>(null);
 
     return (
-        <section className="section section__5 fourth darkGradient">
-            <Bulge type="Light" />
-            <Header color="Light"></Header>
+        <section className="section section__5 fourth lightGradient">
+            <Bulge type="Dark" />
+            <Header color="Dark" />
 
             <Magentic // href="mailto:email.coex@gmail.com"
                 href={links.email}
@@ -35,7 +35,7 @@ export function ContactSection({ }) {
                 }}
             >
                 <span className="shapka mask">
-                    <span className="scrambleText inline-block text-left">Contact</span>
+                    <span className="scrambleText inline-block text-left text-colorDark">Contact</span>
                     <span className="yellow__it">.</span>
                 </span>
             </Magentic>
