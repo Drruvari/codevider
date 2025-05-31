@@ -4,134 +4,149 @@ import { Bulge } from "@/components/bulge";
 import { Header } from "@/components/header";
 import { gsap } from "gsap";
 import SplitText from "gsap/SplitText";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import "./styles.css";
 gsap.registerPlugin(SplitText);
 
 export default function MembersSection() {
+    const containerRef = useRef<HTMLElement>(null);
+    // Keep track of which index is currently “open” on mobile:
+    let activeIdx: number | null = null;
+
     useEffect(() => {
-        const profileImagesContainer = document.querySelector(".members-profile-images");
-        const profileImages = document.querySelectorAll<HTMLImageElement>(
-            ".members-profile-images .members-memberImg"
+        const section = containerRef.current!;
+        const imgs = Array.from(
+            section.querySelectorAll<HTMLImageElement>(".members-memberImg")
         );
-        const nameElements = document.querySelectorAll<HTMLElement>(
-            ".members-profile-names .members-name"
+        const nameEls = Array.from(
+            section.querySelectorAll<HTMLElement>(".members-name")
         );
-        const nameHeadings = document.querySelectorAll<HTMLHeadingElement>(
-            ".members-profile-names .members-name h1"
+        const headings = Array.from(
+            section.querySelectorAll<HTMLHeadingElement>(".members-name h1")
         );
 
-        // Split each heading into chars
-        nameHeadings.forEach((heading) => {
-            const split = new SplitText(heading, { type: "chars" });
-            split.chars.forEach((char) => char.classList.add("letter"));
+        // Split each heading into .letter spans once
+        headings.forEach((h) => {
+            const split = new SplitText(h, { type: "chars" });
+            split.chars.forEach((ch) => ch.classList.add("letter"));
         });
 
-        const defaultLetters = nameElements[0].querySelectorAll<HTMLElement>(".letter");
+        // Initial state: default title showing
+        const defaultLetters = nameEls[0].querySelectorAll<HTMLElement>(".letter");
         gsap.set(defaultLetters, { y: "100%" });
 
-        // Hover animations only for desktop
-        if (window.innerWidth >= 900) {
-            profileImages.forEach((img, idx) => {
-                const container = img.parentElement!;
-                const correspondingName = nameElements[idx + 1]; // skip default
-                const letters = correspondingName.querySelectorAll<HTMLElement>(".letter");
-
-                img.addEventListener("mouseenter", () => {
-                    gsap.to(container, {
-                        width: 140,
-                        height: 140,
-                        duration: 0.5,
-                        ease: "power4.out",
-                    });
-                    gsap.to(letters, {
-                        y: "-100%",
-                        duration: 0.75,
-                        stagger: { each: 0.025, from: "center" },
-                    });
-                });
-
-                img.addEventListener("mouseleave", () => {
-                    gsap.to(container, {
-                        width: 70,
-                        height: 70,
-                        duration: 0.5,
-                        ease: "power4.out",
-                    });
-                    gsap.to(letters, {
-                        y: "0%",
-                        ease: "power4.out",
-                        duration: 0.75,
-                        stagger: { each: 0.025, from: "center" },
-                    });
-                });
+        // Function to animate a given index “in”
+        const animateIn = (idx: number) => {
+            const imgWrapper = imgs[idx].parentElement! as HTMLElement;
+            const letters = nameEls[idx + 1].querySelectorAll<HTMLElement>(".letter");
+            // expand
+            gsap.to(imgWrapper, {
+                width: "8rem",
+                height: "8rem",
+                duration: 0.5,
+                ease: "power4.out",
             });
-
-            profileImagesContainer?.addEventListener("mouseenter", () => {
-                gsap.to(defaultLetters, {
-                    y: "0%",
-                    ease: "power4.out",
-                    duration: 0.75,
-                    stagger: { each: 0.025, from: "center" },
-                });
+            // slide letters up
+            gsap.to(letters, {
+                y: "-100%",
+                duration: 0.75,
+                stagger: { each: 0.03, from: "center" },
             });
+        };
 
-            profileImagesContainer?.addEventListener("mouseleave", () => {
-                gsap.to(defaultLetters, {
-                    y: "100%",
-                    ease: "power4.out",
-                    duration: 0.75,
-                    stagger: { each: 0.025, from: "center" },
-                });
+        // Animate a given index “out”
+        const animateOut = (idx: number) => {
+            const imgWrapper = imgs[idx].parentElement! as HTMLElement;
+            const letters = nameEls[idx + 1].querySelectorAll<HTMLElement>(".letter");
+            // collapse
+            gsap.to(imgWrapper, {
+                width: "4.5rem",
+                height: "4.5rem",
+                duration: 0.5,
+                ease: "power4.out",
             });
-        }
+            // slide letters down
+            gsap.to(letters, {
+                y: "0%",
+                duration: 0.75,
+                ease: "power4.out",
+                stagger: { each: 0.03, from: "center" },
+            });
+        };
 
-        // Clean up listeners on unmount
+        // Also animate default “The Squad” on container hover/tap
+        const profilesWrapper = section.querySelector(
+            ".members-profile-images"
+        ) as HTMLElement;
+        profilesWrapper.addEventListener("mouseenter", () => {
+            gsap.to(defaultLetters, {
+                y: "0%",
+                duration: 0.75,
+                stagger: { each: 0.025, from: "center" },
+                ease: "power4.out",
+            });
+        });
+        profilesWrapper.addEventListener("mouseleave", () => {
+            gsap.to(defaultLetters, {
+                y: "100%",
+                duration: 0.75,
+                stagger: { each: 0.025, from: "center" },
+                ease: "power4.out",
+            });
+        });
+
+        // Decide event type based on viewport width
+        const isDesktop = window.innerWidth >= 900;
+
+        imgs.forEach((img, idx) => {
+            if (isDesktop) {
+                // desktop: hover
+                img.addEventListener("mouseenter", () => animateIn(idx));
+                img.addEventListener("mouseleave", () => animateOut(idx));
+            } else {
+                // mobile/tablet: click toggles
+                img.addEventListener("click", () => {
+                    if (activeIdx === idx) {
+                        animateOut(idx);
+                        activeIdx = null;
+                    } else {
+                        if (activeIdx !== null) {
+                            animateOut(activeIdx);
+                        }
+                        animateIn(idx);
+                        activeIdx = idx;
+                    }
+                });
+            }
+        });
+
+        // clean up
         return () => {
-            profileImages.forEach((img) => {
-                img.replaceWith(img.cloneNode(true));
-            });
-            profileImagesContainer?.replaceWith(
-                profileImagesContainer.cloneNode(true)
-            );
+            imgs.forEach((img) => img.replaceWith(img.cloneNode(true)));
+            profilesWrapper.replaceWith(profilesWrapper.cloneNode(true));
         };
     }, []);
 
     return (
-        <section className="members-section section section__3 third darkGradient text-colorLight">
+        <section
+            ref={containerRef}
+            className="members-section section section__3 third darkGradient text-colorLight"
+        >
             <Bulge type="Light" />
             <Header color="Light" />
 
             <div className="members-profile-images">
-                <div className="members-img">
-                    <img
-                        className="members-memberImg"
-                        src="/img/members/pt.jpg"
-                        alt="Pasho Toska"
-                    />
-                </div>
-                <div className="members-img">
-                    <img
-                        className="members-memberImg"
-                        src="/img/members/ez.jpg"
-                        alt="Ervin Ziko"
-                    />
-                </div>
-                <div className="members-img">
-                    <img
-                        className="members-memberImg"
-                        src="/img/members/al.jpg"
-                        alt="Altin Luli"
-                    />
-                </div>
-                <div className="members-img">
-                    <img
-                        className="members-memberImg"
-                        src="/img/members/ed.jpg"
-                        alt="Erion Domi"
-                    />
-                </div>
+                {[
+                    { src: "/img/members/pt.jpg", alt: "Pasho Toska" },
+                    { src: "/img/members/ez.jpg", alt: "Ervin Ziko" },
+                    { src: "/img/members/al.jpg", alt: "Altin Luli" },
+                    { src: "/img/members/ed.jpg", alt: "Erion Domi" },
+                ].map((m, i) => (
+                    <div className="members-img" key={i}>
+                        <img className="members-memberImg" src={m.src} alt={m.alt} />
+                    </div>
+                ))}
             </div>
 
             <div className="members-profile-names">

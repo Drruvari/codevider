@@ -86,7 +86,7 @@ export function ImageSequence() {
                 modelRef.current = model;
             },
             (xhr) => {
-                console.log(`${(xhr.loaded / xhr.total * 100).toFixed(1)}% loaded`);
+                // console.log(`${(xhr.loaded / xhr.total * 100).toFixed(1)}% loaded`);
             },
             (err) => console.error(err)
         );

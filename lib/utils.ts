@@ -12,7 +12,7 @@ export const getRandRgb = () => {
     return `rgb(${r}, ${g}, ${b})`;
 };
 
-//  function to get rotation two beetween numbers
+// function to get a random integer between min and max
 export const getRandValues = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -27,7 +27,7 @@ export const shuffle = (array: any[]) => {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        // And swap it with the current element.
+        // Swap.
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex],
             array[currentIndex],
@@ -38,12 +38,17 @@ export const shuffle = (array: any[]) => {
 };
 
 export const isDesktop = () => {
-    return screen.width > 540;
+    // Guard for server‐side or non‐browser environments
+    if (typeof window === "undefined") {
+        return false;
+    }
+
+    return window.innerWidth > 540;
 };
 
 export function getJoinedDate(
     options: Intl.DateTimeFormatOptions[],
-    separator: string = " | ",
+    separator: string = " | "
 ) {
     function format(option: Intl.DateTimeFormatOptions) {
         let formatter = new Intl.DateTimeFormat("en", option);

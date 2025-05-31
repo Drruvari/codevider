@@ -7,19 +7,19 @@ import React, { useEffect, useRef, useState } from "react";
 const originalBgImagesData = [
     {
         id: 1,
-        imgLink: "/svg_logo/after-effects-logo.svg",
+        imgLink: "/svg_logo/android-logo.svg",
         title: "",
         subtitle: "",
     },
     {
         id: 2,
-        imgLink: "/svg_logo/attributes-logo.svg",
+        imgLink: "/svg_logo/javascript-logo.svg",
         title: "",
         subtitle: "",
     },
     {
         id: 3,
-        imgLink: "/svg_logo/client-first-logo.svg",
+        imgLink: "/svg_logo/mongo-logo.svg",
         title: "",
         subtitle: "",
     },
@@ -31,7 +31,7 @@ const originalBgImagesData = [
     },
     {
         id: 5,
-        imgLink: "/svg_logo/framer-logo.svg",
+        imgLink: "/svg_logo/nodejs-logo.svg",
         title: "",
         subtitle: "",
     },
@@ -43,7 +43,7 @@ const originalBgImagesData = [
     },
     {
         id: 7,
-        imgLink: "/svg_logo/mailchimp-logo.svg",
+        imgLink: "/svg_logo/stripe-logo.svg",
         title: "",
         subtitle: "",
     },
@@ -55,7 +55,7 @@ const originalBgImagesData = [
     },
     {
         id: 9,
-        imgLink: "/svg_logo/photoshop-logo.svg",
+        imgLink: "/svg_logo/python-logo.svg",
         title: "",
         subtitle: "",
     },
@@ -67,7 +67,7 @@ const originalBgImagesData = [
     },
     {
         id: 11,
-        imgLink: "/svg_logo/spline-logo.svg",
+        imgLink: "/svg_logo/redis-logo.svg",
         title: "",
         subtitle: "",
     },
@@ -85,7 +85,7 @@ const originalBgImagesData = [
     },
     {
         id: 14,
-        imgLink: "/svg_logo/webflow-logo.svg",
+        imgLink: "/svg_logo/slack-logo.svg",
         title: "",
         subtitle: "",
     },
