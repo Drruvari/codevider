@@ -44,13 +44,10 @@ export function WorkSection({
         `}
             >
                 <a
-                    className={`image image--works image--works${index + 1
-                        } anime rounded-3xl `}
+                    className={`image image--works image--works${index + 1} anime rounded-3xl bg-center bg-cover bg-no-repeat`}
                     target="_blank"
                     href={item.link}
-                    style={{
-                        background: `url(${item.imageLink}) center center / contain no-repeat`,
-                    }}
+                    style={{ backgroundImage: `url(${item.imageLink})` }}
                 >
                     <div className="image__over">
                         <div className="image__cover">1</div>
@@ -127,6 +124,7 @@ export function WorkSection({
                     .map((_, i) => {
                         return (
                             <div
+                                key={i}
                                 className={cn(
                                     `h-4 w-1 bg-colorSecondary${color} rounded-full`,
                                     ` ${i === index ? `h-10 bg-color${color}` : ""}`,

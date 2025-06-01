@@ -183,29 +183,6 @@ input:-webkit-autofill:active {
   z-index: 9999;
 }
 
-.cursor2 {
-  position: fixed;
-  width: 24px;
-  height: 24px;
-  border: 1px solid var(--primary-color);
-  border-radius: 50%;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-}
-
-@media (hover: none) {
-  .cursor1 {
-    display: none;
-  }
-
-  .cursor2 {
-    display: none;
-  }
-}
-
 .darkGradient {
   background: linear-gradient(90deg, #000000 0%, #222121 100%);
 }
