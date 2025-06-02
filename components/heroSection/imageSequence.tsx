@@ -148,6 +148,6 @@ export function ImageSequence() {
     }, []);
 
     return (
-        <div id="hero-lightpass" ref={containerRef} className="absolute inset-0 z-10 origin-center" />
+        <div ref={containerRef} className="absolute inset-0 z-10 origin-center" />
     );
 }
