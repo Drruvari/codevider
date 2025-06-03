@@ -55,7 +55,6 @@
     user-select: none;
     color: hsl(221, 83%, 53%);
     transform: translateY(100%);
-    white-space: nowrap;
 }
 
 /* Default “The Squad” */
@@ -82,29 +81,35 @@
 }
 
 @media (max-width: 900px) {
-    .members-section {
-        flex-direction: column-reverse;
-        padding: 1rem;
-        gap: 1.5rem;
-    }
+  .members-section {
+    flex-direction: column-reverse;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
 
-    .members-profile-images {
-        justify-content: center;
-        max-width: 100%;
-    }
+  .members-profile-images {
+    justify-content: center;
+    max-width: 100%;
+  }
 
-    .members-img {
-        width: 3.5rem;
-        height: 3.5rem;
-        padding: 0.2rem;
-    }
+  .members-img {
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0.156rem;
+  }
 
-    .members-profile-names {
-        height: 6rem;
-    }
+  .members-profile-names {
+    height: 6rem; /* keep some space for "The Squad" */
+  }
 
-    .members-name h1 {
-        font-size: clamp(2rem, 8vw, 4rem);
-        letter-spacing: 0;
-    }
+  .members-name h1 {
+    letter-spacing: 0;
+    transform: translateY(100%);
+  }
+
+  /* ★ CHANGED: Hide every .members-name except the one with class="default" */
+  .members-name:not(.default) {
+    display: none;
+  }
 }
+

@@ -36,7 +36,15 @@ export default function MembersSection() {
         const defaultLetters = nameEls[0].querySelectorAll<HTMLElement>(".letter");
         gsap.set(defaultLetters, { y: "100%" });
 
-        // Function to animate a given index “in”
+        // Decide event type based on viewport width
+        let isDesktop = window.matchMedia("(min-width: 900px)").matches;
+
+        const updateMediaQuery = () => {
+            isDesktop = window.matchMedia("(min-width: 900px)").matches;
+        };
+        window.addEventListener("resize", updateMediaQuery);
+
+        // Define animations (they will only be used if isDesktop === true)
         const animateIn = (idx: number) => {
             const imgWrapper = imgs[idx].parentElement! as HTMLElement;
             const letters = nameEls[idx + 1].querySelectorAll<HTMLElement>(".letter");
@@ -55,14 +63,13 @@ export default function MembersSection() {
             });
         };
 
-        // Animate a given index “out”
         const animateOut = (idx: number) => {
             const imgWrapper = imgs[idx].parentElement! as HTMLElement;
             const letters = nameEls[idx + 1].querySelectorAll<HTMLElement>(".letter");
-            // collapse
+            // collapse back to small circle
             gsap.to(imgWrapper, {
-                width: "4.5rem",
-                height: "4.5rem",
+                width: isDesktop ? "5.5rem" : "3.5rem",
+                height: isDesktop ? "5.5rem" : "3.5rem",
                 duration: 0.5,
                 ease: "power4.out",
             });
@@ -75,62 +82,48 @@ export default function MembersSection() {
             });
         };
 
-        // Also animate default “The Squad” on container hover/tap
+        // Animate default “The Squad” on container hover/tap—but only on desktop
         const profilesWrapper = section.querySelector(
             ".members-profile-images"
         ) as HTMLElement;
-        profilesWrapper.addEventListener("mouseenter", () => {
-            gsap.to(defaultLetters, {
-                y: "0%",
-                duration: 0.75,
-                stagger: { each: 0.025, from: "center" },
-                ease: "power4.out",
+        if (isDesktop) {
+            profilesWrapper.addEventListener("mouseenter", () => {
+                gsap.to(defaultLetters, {
+                    y: "0%",
+                    duration: 0.75,
+                    stagger: { each: 0.025, from: "center" },
+                    ease: "power4.out",
+                    delay: 0.1,
+                });
             });
-        });
-        profilesWrapper.addEventListener("mouseleave", () => {
-            gsap.to(defaultLetters, {
-                y: "100%",
-                duration: 0.75,
-                stagger: { each: 0.025, from: "center" },
-                ease: "power4.out",
+            profilesWrapper.addEventListener("mouseleave", () => {
+                gsap.to(defaultLetters, {
+                    y: "100%",
+                    duration: 0.75,
+                    stagger: { each: 0.025, from: "center" },
+                    ease: "power4.out",
+                });
             });
-        });
+        }
 
-        // Decide event type based on viewport width
-        let isDesktop = window.matchMedia("(min-width: 900px)").matches;
-
-        const updateMediaQuery = () => {
-            isDesktop = window.matchMedia("(min-width: 900px)").matches;
-        };
-
-        window.addEventListener("resize", updateMediaQuery);
-
-        imgs.forEach((img, idx) => {
-            if (isDesktop) {
+        // Only register hover/click listeners if we're on desktop
+        if (isDesktop) {
+            imgs.forEach((img, idx) => {
                 // desktop: hover
                 img.addEventListener("mouseenter", () => animateIn(idx));
                 img.addEventListener("mouseleave", () => animateOut(idx));
-            } else {
-                // mobile/tablet: click toggles
-                img.addEventListener("click", () => {
-                    if (activeIdx === idx) {
-                        animateOut(idx);
-                        activeIdx = null;
-                    } else {
-                        if (activeIdx !== null) {
-                            animateOut(activeIdx);
-                        }
-                        animateIn(idx);
-                        activeIdx = idx;
-                    }
-                });
-            }
-        });
+            });
+        } else {
+            // ★ CHANGED: on mobile, do not register any click handlers at all.
+            // That way, no expand/collapse/animation runs when tapping.
+        }
 
-        // clean up
+        // Clean up: remove listeners when unmounting
         return () => {
-            imgs.forEach((img) => img.replaceWith(img.cloneNode(true)));
-            profilesWrapper.replaceWith(profilesWrapper.cloneNode(true));
+            if (isDesktop) {
+                imgs.forEach((img) => img.replaceWith(img.cloneNode(true)));
+                profilesWrapper.replaceWith(profilesWrapper.cloneNode(true));
+            }
             window.removeEventListener("resize", updateMediaQuery);
         };
     }, []);
