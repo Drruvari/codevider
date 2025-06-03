@@ -1,7 +1,7 @@
 import { Bulge } from "@/components/bulge";
 import { Header } from "@/components/header";
 import { HeroWrapper } from "@/components/heroSection/heroWrapper";
-import { ImageSequence } from "@/components/heroSection/imageSequence";
+import { HeroModel } from "@/components/heroSection/heroModel";
 import { useRef } from "react";
 
 export function HeroSection({ }) {
@@ -15,7 +15,7 @@ export function HeroSection({ }) {
             <Bulge type="Light" />
             <Header color="Light" />
             <HeroWrapper />
-            <ImageSequence />
+            <HeroModel />
         </section>
     );
 }

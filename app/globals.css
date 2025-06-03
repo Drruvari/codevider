@@ -4,82 +4,81 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 220 14% 96%;
+    --foreground: 220 13% 18%;
     /* customs */
-    --colorPrimary: #ffe600;
-    --colorDark: #0e0d0c;
-    --colorSecondaryDark: #404040;
-    --colorSecondaryHalfDark: #1a1a1a;
-    --colorLight: #ffffff;
-    --colorSecondaryLight: #bfbfbf;
-    --colorSecondaryHalfLight: #f2f2f2;
+    --colorPrimary: #2563eb;
+    --colorDark: #111827;
+    --colorSecondaryDark: #1f2937;
+    --colorSecondaryHalfDark: #374151;
+    --colorLight: #f9fafb;
+    --colorSecondaryLight: #d1d5db;
+    --colorSecondaryHalfLight: #e5e7eb;
     --colorWhite: #fff;
+
     --paddingX: 6vw;
     --paddingY: 110px;
     --maxWidth: 1690px;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 13% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 13% 18%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 14% 93%;
+    --secondary-foreground: 220 13% 18%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+   --muted: 220 14% 90%;
+    --muted-foreground: 218 11% 38%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --borderLight: 0 0% 75%;
-
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --transparent-background: 0, 0%, 100%, 0.5;
-    --transparent-foreground: 222.2, 84%, 4.9%, 0.5;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 220 14% 85%;
+    --borderLight: 0 0% 75%;
+
+    --input: 220 14% 85%;
+    --ring: 221 83% 53%;
+
+    --transparent-background: 220, 14%, 96%, 0.5;
+    --transparent-foreground: 220, 13%, 18%, 0.5;
+  }
+
+ .dark {
+    --background: 220 13% 10%;
+    --foreground: 220 13% 90%;
+
+    --card: 220 13% 12%;
+    --card-foreground: 220 13% 90%;
+
+    --popover: 220 13% 12%;
+    --popover-foreground: 220 13% 90%;
+
+    --primary: 221 100% 75%;
+    --primary-foreground: 220 13% 10%;
+
+    --secondary: 219 18% 26%;
+    --secondary-foreground: 220 13% 90%;
+
+    --muted: 219 18% 26%;
+    --muted-foreground: 217 20% 70%;
+
+    --accent: 219 100% 60%;
+    --accent-foreground: 220 13% 90%;
+
+    --destructive: 0 62.8% 45%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 219 18% 26%;
+    --input: 219 18% 26%;
+    --ring: 221 83% 53%;
   }
 
   @media only screen and (max-width: 500px) {
@@ -95,7 +94,6 @@
   }
   body {
     @apply lightGradient text-foreground;
-    font-family: "DM Sans", sans-serif;
   }
   .darkGradient {
     background: linear-gradient(90deg, #000000 0%, #222121 100%);

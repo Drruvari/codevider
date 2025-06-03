@@ -4,7 +4,6 @@ import { HeroMarquee } from "./heroMarquee";
 export function HeroWrapper({ }) {
     return (
         <main className="section1__wrapper relative max-w-maxWidth grow">
-            <div className="myImage"></div>
             <HeroButton />
             <h2 className="left mask pointer-events-none z-20 pt-20">
                 <div className="free anime">

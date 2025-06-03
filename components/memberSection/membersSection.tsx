@@ -51,7 +51,7 @@ export default function MembersSection() {
             gsap.to(letters, {
                 y: "-100%",
                 duration: 0.75,
-                stagger: { each: 0.03, from: "center" },
+                stagger: { each: 0.025, from: "center" },
             });
         };
 
@@ -71,7 +71,7 @@ export default function MembersSection() {
                 y: "0%",
                 duration: 0.75,
                 ease: "power4.out",
-                stagger: { each: 0.03, from: "center" },
+                stagger: { each: 0.025, from: "center" },
             });
         };
 
@@ -97,7 +97,13 @@ export default function MembersSection() {
         });
 
         // Decide event type based on viewport width
-        const isDesktop = window.innerWidth >= 900;
+        let isDesktop = window.matchMedia("(min-width: 900px)").matches;
+
+        const updateMediaQuery = () => {
+            isDesktop = window.matchMedia("(min-width: 900px)").matches;
+        };
+
+        window.addEventListener("resize", updateMediaQuery);
 
         imgs.forEach((img, idx) => {
             if (isDesktop) {
@@ -125,6 +131,7 @@ export default function MembersSection() {
         return () => {
             imgs.forEach((img) => img.replaceWith(img.cloneNode(true)));
             profilesWrapper.replaceWith(profilesWrapper.cloneNode(true));
+            window.removeEventListener("resize", updateMediaQuery);
         };
     }, []);
 
