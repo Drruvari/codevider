@@ -47,9 +47,9 @@ export function HeroButton({ }) {
                 <div className="round hidden items-center justify-center md:flex">
                     <p className="absolute left-[37%] whitespace-nowrap text-[21px]">
                         <span>
-                            <span className="scrambleText">Check out</span>
+                            <span className="scrambleText">Don't Hessitate</span>
                             <br />
-                            <span className="scrambleText">Latest Work</span>
+                            <span className="scrambleText">Contact Us</span>
                         </span>
                     </p>
                 </div>

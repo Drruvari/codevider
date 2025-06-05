@@ -12,12 +12,6 @@ gsap.registerPlugin(CustomEase);
 
 export function HeaderNavigation() {
     const { isMenuOpen, color } = useAppSelector((state) => state.menuReducer);
-    const possibleTailwindClasses = [
-        "text-colorDark",
-        "text-colorLight",
-        "lightGradient",
-        "darkGradient",
-    ];
 
     const ease = CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 ");
 
@@ -89,12 +83,8 @@ export function HeaderNavigation() {
             href: links.email,
         },
         {
-            name: "Instagram",
-            href: links.instagram,
-        },
-        {
-            name: "Linkedin",
-            href: links.linkedin,
+            name: "Members",
+            href: links.members,
         },
     ];
     return (

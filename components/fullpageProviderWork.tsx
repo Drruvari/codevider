@@ -1,13 +1,29 @@
 "use client";
 
+;(function forceNonPassive() {
+  const orig = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function (
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions
+  ) {
+    if (type === "touchmove" || type === "wheel") {
+      // If they didn’t explicitly set passive:false, override it:
+      if (!options || typeof options === "boolean") {
+        options = { passive: false, capture: !!options };
+      } else {
+        options = { ...options, passive: false };
+      }
+    }
+    return orig.call(this, type, listener, options);
+  };
+})();
+
 import ReactFullpage from "@fullpage/react-fullpage";
 import { gsap } from "gsap";
 import React from "react";
 
 import { CustomEase } from "gsap/CustomEase";
-
-// import Lottie from "lottie-web";
-// import fullpage from "@fullpage/react-fullpage";
 
 const opts = {
     autoScrolling: true,

@@ -8,8 +8,6 @@ import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import React, { useEffect, useRef } from "react";
 import SplitType from "split-type";
-// import Lottie from "lottie-web";
-// import fullpage from "@fullpage/react-fullpage";
 
 gsap.registerPlugin(CustomEase);
 
@@ -17,15 +15,15 @@ const opts = {
     autoScrolling: true,
     scrollOverflow: false,
     scrollHorizontally: false,
-    // fixedElements: "#headerNavigation",
     navigation: false,
     navigationPosition: "left",
     scrollingSpeed: 1300,
     easingcss3: "cubic-bezier(.70,0,.30,1)",
     anchors: ["first", "second", "third", "fourth", "fifth", "sixth"],
+    // For GPL v3 projects - make sure your project complies with GPL v3
     licenseKey: "gplv3-license",
     credits: {
-        enabled: false,
+        enabled: true, // Must be true for GPL license
     },
 };
 
@@ -33,59 +31,63 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
     const about = useRef<gsap.core.Timeline | null>(null);
     const textAnim__section2__down = useRef<gsap.core.Tween | null>(null);
     const videoElement = useRef<HTMLVideoElement | null>(null);
+    const isInitialized = useRef(false);
 
     const dispatch = useAppDispatch();
 
     const onLeave = (origin: any, destination?: any, direction?: any) => {
+        // Add null checks
+        if (!destination) return;
+
         dispatch(setActiveSlide([destination.anchor, direction]));
 
-        // It will patch border that comes when we snap by include dark gradient class on body that has higher specfitcy than light gradient
-        if (destination.anchor == "second" || destination.anchor == "fourth") {
+        // Handle body classes for gradient
+        if (destination.anchor === "second" || destination.anchor === "fourth") {
             document.body.classList.add("darkGradient");
         } else {
             document.body.classList.remove("darkGradient");
         }
 
-        if (destination.anchor == "first") {
+        // Handle spline scene visibility
+        if (destination.anchor === "first") {
             dispatch(splineSceneVisibility(true));
         } else {
             dispatch(splineSceneVisibility(false));
         }
 
-        if (destination.anchor == "first") {
-            if (direction == "down") {
-            } else {
-                about.current?.seek(0.3);
-                // console.log("SeeKed");
+        // Handle first section animations
+        if (destination.anchor === "first") {
+            if (direction === "up" && about.current) {
+                about.current.seek(0.3);
             }
         }
 
-        if (destination.anchor == "second") {
-            if (direction == "down") {
+        // Handle second section animations
+        if (destination.anchor === "second") {
+            if (direction === "down") {
                 textAnim__section2__down.current?.restart(true);
             } else {
                 textAnim__section2__down.current?.restart();
             }
-            videoElement.current && (videoElement.current.currentTime = 1.6);
-            videoElement.current?.play();
-        }
 
-        // if (destination.anchor == "third") {
-        //   videoElement.current && (videoElement.current.currentTime = 1.6);
-        //   videoElement.current?.play();
-        // }
-
-        if (destination.anchor == "fourth") {
-            if (direction == "down") {
-                // anim__section2__down.restart();
-            } else {
-                // textAnim__section2__up.restart();
-                // anim__section2__up.restart();
+            // Handle video playback safely
+            if (videoElement.current) {
+                try {
+                    videoElement.current.currentTime = 1.6;
+                    videoElement.current.play().catch(e => {
+                        console.warn("Video play failed:", e);
+                    });
+                } catch (e) {
+                    console.warn("Video manipulation failed:", e);
+                }
             }
         }
 
-        var flex = screen.width > 540 ? 17 : 5;
-        if (direction == "down") {
+        // Transition animations
+        const flex = window.innerWidth > 540 ? 17 : 5;
+        const customEase = CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1");
+
+        if (direction === "down") {
             gsap
                 .timeline()
                 .from(`.${destination.anchor} .rounded__div__down`, {
@@ -99,7 +101,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
                     {
                         height: "0vh",
                         duration: 1.2,
-                        ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
+                        ease: customEase,
                     },
                 );
 
@@ -117,7 +119,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
                         y: "0vh",
                         duration: 1.1,
                         stagger: 0.1,
-                        ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
+                        ease: customEase,
                     },
                 );
         } else {
@@ -134,7 +136,7 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
                     {
                         height: "0vh",
                         duration: 1.2,
-                        ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
+                        ease: customEase,
                     },
                 );
 
@@ -152,17 +154,20 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
                         y: "0vh",
                         duration: 1.1,
                         stagger: -0.08,
-                        ease: CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 "),
+                        ease: customEase,
                     },
                 );
         }
     };
-    const getRotation = (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
 
     useEffect(() => {
-        const ease = CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1 ");
+        // Prevent double initialization
+        if (isInitialized.current) return;
+        isInitialized.current = true;
+
+        const ease = CustomEase.create("custom", "M0,0 C0.52,0.01 0.16,1 1,1");
+
+        // Initialize main timeline animation
         about.current = gsap
             .timeline({ defaults: { ease: "none" }, repeat: -1 })
             .fromTo(
@@ -222,36 +227,51 @@ const FullpageProvider = ({ children }: { children: React.ReactNode }) => {
                 "-=0.9",
             );
 
-        const myText = new SplitType("#my-text", { types: "lines" });
-        const myText2 = new SplitType("#my-text .line", {
-            types: "lines",
-            lineClass: "innnerLine",
-        });
+        // Initialize text animations with error handling
+        try {
+            const textElement = document.querySelector("#my-text");
+            if (textElement) {
+                const myText = new SplitType("#my-text", { types: "lines" });
+                const myText2 = new SplitType("#my-text .line", {
+                    types: "lines",
+                    lineClass: "innnerLine",
+                });
 
-        textAnim__section2__down.current = gsap.from(
-            "#my-text .line .innnerLine",
-            1.5,
-            {
-                y: "200%",
-                opacity: 0,
-                skewX: -10,
-                // scaleY: 1.5,
-                paused: true,
-                delay: 0.25,
-                stagger: 0.12,
-                ease: CustomEase.create("custom", "M0,0,C0.5,0,0,1,1,1"),
-            },
-        );
+                textAnim__section2__down.current = gsap.from(
+                    "#my-text .line .innnerLine",
+                    {
+                        duration: 1.5,
+                        y: "200%",
+                        opacity: 0,
+                        skewX: -10,
+                        paused: true,
+                        delay: 0.25,
+                        stagger: 0.12,
+                        ease: CustomEase.create("custom", "M0,0,C0.5,0,0,1,1,1"),
+                    },
+                );
+            }
+        } catch (error) {
+            console.warn("SplitType initialization failed:", error);
+        }
 
-        videoElement.current = document.querySelector("#video") as HTMLVideoElement;
+        // Get video element safely
+        const video = document.querySelector("#video") as HTMLVideoElement;
+        if (video) {
+            videoElement.current = video;
+        }
 
-        // console.log(gsap);
-        // console.log(SplitType);
-        // console.log(Lottie);
-        // console.log(fullpage);
         return () => {
-            about.current?.kill();
-            // textAnim__section2__down.current?.kill();
+            // Cleanup animations
+            if (about.current) {
+                about.current.kill();
+                about.current = null;
+            }
+            if (textAnim__section2__down.current) {
+                textAnim__section2__down.current.kill();
+                textAnim__section2__down.current = null;
+            }
+            isInitialized.current = false;
         };
     }, []);
 
