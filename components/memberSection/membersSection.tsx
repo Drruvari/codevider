@@ -6,13 +6,14 @@ import { gsap } from "gsap";
 import SplitText from "gsap/SplitText";
 import { useEffect, useRef } from "react";
 
+import Link from "next/link";
 import "./styles.css";
 gsap.registerPlugin(SplitText);
 
 export default function MembersSection() {
     const containerRef = useRef<HTMLElement>(null);
     // Keep track of which index is currently “open” on mobile:
-    let activeIdx: number | null = null;
+    const anchors = ["first", "second", "third", "fourth"];
 
     useEffect(() => {
         const section = containerRef.current!;
@@ -128,6 +129,7 @@ export default function MembersSection() {
         };
     }, []);
 
+
     return (
         <section
             ref={containerRef}
@@ -143,9 +145,23 @@ export default function MembersSection() {
                     { src: "/img/members/al.jpg", alt: "Altin Luli" },
                     { src: "/img/members/ed.jpg", alt: "Erion Domi" },
                 ].map((m, i) => (
-                    <div className="members-img" key={i}>
-                        <img className="members-memberImg" src={m.src} alt={m.alt} />
-                    </div>
+                    <Link
+                        key={i}
+                        href={`/members/#${anchors[i]}`}
+                        passHref
+                        className="members-img"
+                    >
+                        <img
+                            className="members-memberImg"
+                            src={m.src}
+                            alt={m.alt}
+                        />
+
+
+                        <div className="hover-overlay">
+                            <span className="arrow">→</span>
+                        </div>
+                    </Link>
                 ))}
             </div>
 

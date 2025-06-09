@@ -37,7 +37,7 @@ const opts = {
     anchors: ["first", "second", "third", "fourth", "fifth", "sixth"],
     licenseKey: "gplv3-license",
     credits: {
-        enabled: false,
+        enabled: true,
     },
 };
 
