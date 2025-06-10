@@ -1,15 +1,15 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import Script from "next/script";
-
 import GoogleAnalytics from "@/app/GoogleAnalytics";
 import StoreProvider from "@/redux/storeProvider";
-
-import localFont from "next/font/local";
 import { gsap } from "gsap";
 import { CustomEase } from "gsap/CustomEase";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+
+import "./globals.css";
 
 gsap.registerPlugin(CustomEase);
+gsap.registerPlugin(ScrambleTextPlugin);
 
 const satoshi = localFont({
     src: "../font/satoshi/Satoshi-Variable.woff2",
@@ -46,7 +46,6 @@ export default function RootLayout({
             </head>
             <body className={satoshi.className}>
                 <StoreProvider>{children}</StoreProvider>
-                <Script src="https://cdn.jsdelivr.net/gh/vipulkumar-dev/gsap@2024/ScrambleTextPlugin.min.js" />
             </body>
         </html>
     );

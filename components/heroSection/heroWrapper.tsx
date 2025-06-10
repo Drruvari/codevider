@@ -5,7 +5,7 @@ export function HeroWrapper({ }) {
     return (
         <main className="section1__wrapper relative max-w-maxWidth grow">
             <HeroButton />
-            <h2 className="left mask pointer-events-none z-20 pt-20">
+            <h2 className="left mask pointer-events-none z-20 pt-20 font-semibold">
                 <div className="free anime">
                     Software Development&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </div>

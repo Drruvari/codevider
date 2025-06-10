@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import React, { memo, useEffect, useRef } from "react";
 
 import { cn, isDesktop } from "@/lib/utils";

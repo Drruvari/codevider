@@ -33,10 +33,10 @@ export function HeroButton({ }) {
             onMouseLeave={() => rotateImageRef.current?.pause()}
             href="/contact"
             scrambleParams={[
-                {
-                    text: "Don't Hessitate",
-                    chars: "-x",
-                },
+                // {
+                //     text: "Don't Hessitate",
+                //     chars: "-x",
+                // },
                 {
                     text: "Contact Us",
                     chars: "-x",
@@ -47,9 +47,9 @@ export function HeroButton({ }) {
                 <div className="round hidden items-center justify-center md:flex">
                     <p className="absolute left-[37%] whitespace-nowrap text-[21px]">
                         <span>
-                            <span className="scrambleText">Don't Hessitate</span>
-                            <br />
-                            <span className="scrambleText">Contact Us</span>
+                            {/* <span className="scrambleText">Don't Hessitate</span>
+                            <br /> */}
+                            <span className="scrambleText font-bold text-2xl">Contact Us</span>
                         </span>
                     </p>
                 </div>
